@@ -4,20 +4,20 @@
 ## Project Description
 
 WAR
-Players are each given half of the deck
-Each round players draw one card
-Winning player takes both cards
-If cards are equal in value, WAR is declared
+- Players are each given half of the deck
+- Each round players draw one card
+- Winning player takes both cards
+- If cards are equal in value, WAR is declared
 
 ## Game Logic
-Game Starts
-Deck is divided into two hands
-CP (Computer Player) draws
-Player draws
-Values are compared
-Winner takes both cards
-WAR declared if value is equal
-Players lose if they have no more cards
+- Game Starts
+- Deck is divided into two hands
+- CP (Computer Player) draws
+- Player draws
+- Values are compared
+- Winner takes both cards
+- WAR declared if value is equal
+- Players lose if they have no more cards
 ### MVP Criteria
 
 - TBD
