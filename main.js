@@ -29,29 +29,44 @@ function main(){
         }//end shuffle
           
     }//end deck
+    let graphics = {
+        card : //renderCard creates html image element using the card as a reference for the asset to draw with
+        function renderCard(card){
+            let img = document.createElement('img')
+            img.src = `assets/zxyCards/Cards/${card.value}${card.suit}.png`
+            img.alt = `${card.value} of ${card.suit}`
+            img.width = '128px'
+            img.height = '178px'
+            img.className = 'card'
+            return img
+        },//end renderCard
+    }
 
-    //renderCard returns the path to the file of the asset for a card
-    function renderCard(card){
-        return `assets/zxyCards/Cards/${card.value}${card.suit}.png`
-    }//end renderCard
-    //shuffle takes an array of cards, shuffles them, returns the new array
+    
     
     function gameLogic(){
-        
-        let playerHand = []
-        let computerHand = []
+        let data = {
+            playerHand : [],
+            computerHand : [],
+            playerScore : 0,
+            computerScore : 0,
+            playerWins : 0,
+            computerWins : 0
+        }
 
         function dealHands(){
             let shuffledDeck = deck.shuffle(deck.new())
             for(let i = 0; i < (shuffledDeck.length / 2); i++){
-                playerHand.push(shuffledDeck[i])
-                computerHand.push(shuffledDeck[i+1])
+                data.playerHand.push(shuffledDeck[i])
+                data.computerHand.push(shuffledDeck[i+1])
             }
             console.log('hands dealt!')
-            console.log(JSON.stringify(playerHand))
-            console.log(JSON.stringify(computerHand))
+            console.log(JSON.stringify(data.playerHand))
+            console.log(JSON.stringify(data.computerHand))
         }
-    
+    function play(){
+
+    }
     dealHands()
     }
 
