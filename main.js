@@ -131,26 +131,51 @@ function main(){
                 computerCard = data.computerHand[index]
                 console.log(`${playerCard.value} versus ${computerCard.value}`)
                 if(playerCard.value > computerCard.value){
-                    playerWin()
+                    playerWin(true)
                 }else if(computerCard.value > playerCard.value){
-                   computerWin()
+                   computerWin(true)
                 }else if(computerCard.value == playerCard.value){
                     doWar()
                 }
             }//end doWar
-            function playerWin(){
-                console.log('Player Wins!')
-                data.playerHand.push(computerCard)
-                data.computerHand.splice(index, 1)
+            function playerWin(war){
+               
+                if(war==true){
+                    console.log(`Player Wins the War! ${index} cards claimed!`)
+                    for(let i = 0; i < index; i++){
+                        computerCard = data.computerHand[i]
+                        data.playerHand.push(computerCard)
+                        data.computerHand.splice(i, 1)
+                        console.log(`card added : ` + computerCard)
+                    }
+                }else{
+                    
+                    console.log('Player Wins!')
+                    data.playerHand.push(computerCard)
+                    data.computerHand.splice(index, 1)
+                }
                 data.playerHand = deck.shuffle(data.playerHand)
                 data.playerScore += data.playerScore
+               
             }
-            function computerWin(){
-                console.log('Computer Wins!')
-                data.playerHand.splice(index, 1)
-                data.computerHand.push(playerCard)
+            function computerWin(war){
+                
+                if(war==true){
+                    console.log(`Computer Wins the War! ${index} cards claimed!`)
+                    for(let i = 0; i < index; i++){
+                        playerCard = data.playerHand[i]
+                        data.computerHand.push(playerCard)
+                        data.playerHand.splice(i, 1)
+                        console.log('card added : ' + playerCard)
+                    }
+                }else{
+                    console.log('Computer Wins!')
+                    data.playerHand.splice(index, 1)
+                    data.computerHand.push(playerCard)
+                }
                 data.computerHand = deck.shuffle(data.computerHand)
                 data.computerScore += data.computerScore
+                
             }
         }
     //dealHands()
