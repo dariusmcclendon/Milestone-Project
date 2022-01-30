@@ -1,5 +1,7 @@
 function main(){
     
+    //storing major gamestate data in an object
+    //later versions will save/load data using this object
     let data = {
         playerHand : [],
         computerHand : [],
@@ -42,46 +44,116 @@ function main(){
     let graphics = {
         init : 
         function renderGame(){ //renders the game. Draws the canvas and initial imagery. Returns the canvas to allow for additional rendering.
+            //canvas
             let canvas = document.querySelector('#canvas')
                 canvas.style.minHeight = '500px'
                 canvas.style.minWidth = '500px'
                 canvas.style.backgroundColor = 'green'
+            //buttonContainer
             let buttonContainer = document.createElement('div')
-                
                 buttonContainer.style.minWidth = '500px'
-                buttonContainer.style.minHeight = '150px'
                 buttonContainer.style.display = 'flex'
-                buttonContainer.style.justifyContent = 'center'
-            // let playButton = document.createElement('button')
-            //     playButton.type = 'button'
-            //     playButton.innerText = 'PRESS PLAY TO BEGIN!'
+                buttonContainer.style.justifyContent = 'space-around'
+            //cardContainer
+            let cardContainer = document.createElement('div')
+                cardContainer.style.minHeight = '250px'
+                cardContainer.style.display = 'flex'
+                cardContainer.style.alignItems = 'center'
+                cardContainer.style.justifyContent = 'space-around'
+                cardContainer.className = 'cardContainer'
+            //deckContainer
+            let deckContainer = document.createElement('div')
+                deckContainer.style.minHeight = '250px'
+                deckContainer.style.display = 'flex'
+                deckContainer.style.alignItems = 'center'
+                deckContainer.style.justifyContent = 'space-around'
+                deckContainer.className = 'deckContainer'
+            //drawButton
             let drawButton = document.createElement('button')
                 drawButton.type = 'button'
                 drawButton.innerText = 'DRAW'
-                drawButton.addEventListener('click', gameLogic.play)
-            let dealButton = document.createElement('button')
-                dealButton.type ='button'
-                dealButton.innerText = 'DEAL'
-                dealButton.addEventListener('click', gameLogic.deal)
+                drawButton.style.padding = '15px'
+                drawButton.addEventListener('click',gameLogic.play)
+            //dealButton
+            // let dealButton = document.createElement('button')
+            //     dealButton.type ='button'
+            //     dealButton.innerText = 'DEAL'
+            //     dealButton.style.padding = '15px'
+            //     dealButton.addEventListener('click', gameLogic.deal)
             document.body.append(buttonContainer)
+            canvas.append(cardContainer)
+            canvas.append(deckContainer)
             buttonContainer.append(drawButton)
-            buttonContainer.append(dealButton)
+            //buttonContainer.append(dealButton)
             return canvas
             
         },
         card : //renderCard creates html image element using the card as a reference for the asset to draw with
         function renderCard(card){
+            let container = document.querySelector('.cardContainer')
             let img = document.createElement('img')
-            img.src = `assets/zxyCards/Cards/${card.value}${card.suit}.png`
-            img.alt = `${card.value} of ${card.suit}`
-            img.width = '128px'
-            img.height = '178px'
-            img.className = 'card'
+                img.src = `assets/zxyCards/Cards/${card.value}${card.suit}.png`
+                img.alt = `${card.value} of ${card.suit}`
+                img.style.margin = '2px'
+                img.style.width = '64px'
+                img.style.height = '89px'
+                img.style.boxShadow = '3px 3px 3px black'
+                img.className = 'card'
+            // img.style.position = 'absolute'
+            // img.style.left = x.toString()
+            // img.style.right = y.toString()
+            
+            container.append(img)
             return img
         },//end renderCard
-        render : //creates a new element 
-        function draw(){
+        pile : //renderDeck creates a small pile of cards 
+        function renderDeck(deck){
+            let deckContainer = document.createElement('div')
+                deckContainer.className = 'deck'
+                deckContainer.style.position = 'relative'
+                deckContainer.style.minHeight = '250px'
+                deckContainer.style.minWidth = '200px'
+                this.move(deckContainer,'.deckContainer')
+            if(deck.length > 1){
+                for(let i = 0; i < 10; i++){
+                    let img = document.createElement('img')
+                        img.src = 'assets/zxyCards/Cards/backB.png'
+                        img.alt = 'deck'
+                        img.style.position = 'absolute'
+                        img.style.left = `${i+68}px`
+                        img.style.bottom = `${i+75}px`
+                        img.style.width = '64px'
+                        img.style.height = '89px'
+                        img.style.boxShadow = '0px 3px 3px black'
+                    deckContainer.append(img)
+                   
+                }
+            }else if(deck.length == 1){
+                let img = document.createElement('img')
+                    img.src = 'assets/zxyCards/Cards/backB.png'
+                    img.style.width = '64px'
+                    img.style.height = '89px'
+                    img.alt = 'deck'
+                    img.style.position = 'absolute'
+                    img.style.left = `126px`
+                    img.style.bottom = `101px`
+                
+                deckContainer.append(img)
+            }
+            
+            return deckContainer
 
+        },
+        move : //moves element, assuming a card, to new container 
+        function move(element, destination){
+            let container = document.querySelector(destination)
+            
+            container.append(element)
+            console.log('moved element')
+        },
+        clearCards : //clears the cards out of cardContainer
+        function clearCards(){
+            document.querySelector('.cardContainer').innerHTML = ''
         }
     }
 
@@ -98,9 +170,15 @@ function main(){
             console.log('hands dealt!')
             console.log(JSON.stringify(data.playerHand))
             console.log(JSON.stringify(data.computerHand))
+            graphics.pile(data.playerHand)
+            graphics.pile(data.computerHand)
+            
         },
         play :
         function doRound(){
+            if(data.playerHand[0] == null){
+                gameLogic.deal()
+            }
             let index = 0
             let playerCard = data.playerHand[index]
             let computerCard = data.computerHand[index]
@@ -113,9 +191,16 @@ function main(){
             Players must draw an additional FOUR cards.
             The winner is decided then. 
             */
+            //graphics logic here
+            graphics.card(playerCard)
+            graphics.card(computerCard)
             
-           
-            if(playerCard.value === computerCard.value){//NOTE TO SELF - INCOMPLETE LOGIC. MAY REQUIRE SELF CALLING FUNCTION TO RECTIFY.
+
+
+
+
+            //round logic here
+            if(playerCard.value === computerCard.value){
                 doWar()
 
             }else if(playerCard.value > computerCard.value){
@@ -129,14 +214,21 @@ function main(){
                 index = index + 4
                 playerCard = data.playerHand[index]
                 computerCard = data.computerHand[index]
-                console.log(`${playerCard.value} versus ${computerCard.value}`)
-                if(playerCard.value > computerCard.value){
-                    playerWin(true)
-                }else if(computerCard.value > playerCard.value){
-                   computerWin(true)
-                }else if(computerCard.value == playerCard.value){
-                    doWar()
-                }
+                
+                setTimeout(()=>{
+                    graphics.clearCards()
+                    graphics.card(playerCard)
+                    graphics.card(computerCard)
+                    console.log(`${playerCard.value} versus ${computerCard.value}`)
+                    if(playerCard.value > computerCard.value){
+                        playerWin(true)
+                    }else if(computerCard.value > playerCard.value){
+                       computerWin(true)
+                    }else if(computerCard.value == playerCard.value){
+                        doWar()
+                    }
+                },2500)
+               
             }//end doWar
             function playerWin(war){
                
@@ -156,8 +248,8 @@ function main(){
                 }
                 data.playerHand = deck.shuffle(data.playerHand)
                 data.playerScore += data.playerScore
-               
-            }
+                setTimeout(graphics.clearCards, 2500)
+            }//end playerWin
             function computerWin(war){
                 
                 if(war==true){
@@ -175,10 +267,10 @@ function main(){
                 }
                 data.computerHand = deck.shuffle(data.computerHand)
                 data.computerScore += data.computerScore
-                
-            }
-        }
-    //dealHands()
+                setTimeout(graphics.clearCards, 2500)
+            }//end computerWin
+        }//end doRound
+    
     }
 
    
