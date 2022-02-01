@@ -34,5 +34,5 @@ WAR
 | Tue. 01/25 | Created way to store and initialize deck, coded basic game logic   |
 | Thu. 01/27 | Code to maintain states of player and CPU deck, save/load/delete methods |
 | Sun. 01/30 | CSS and image elements |
-| Tue. 02/01 | Starship Troopers |
+| Tue. 02/01 | Fixing Bugs. |
 | Thu. 02/03 | Deploy to GitHub Pages. Submit completed project. Project presentations. |
