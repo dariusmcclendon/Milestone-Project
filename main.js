@@ -49,12 +49,15 @@ function main() {
                 let canvas = document.querySelector('#canvas')
                 canvas.style.minHeight = '500px'
                 canvas.style.minWidth = '500px'
+                canvas.style.border = '2px solid black'
                 canvas.style.backgroundColor = 'green'
                 //buttonContainer
                 let buttonContainer = document.createElement('div')
                 buttonContainer.style.minWidth = '500px'
+                buttonContainer.style.border ='1px solid black'
                 buttonContainer.style.display = 'flex'
                 buttonContainer.style.justifyContent = 'space-around'
+
                 //cardContainer
                 let cardContainer = document.createElement('div')
                 cardContainer.style.minHeight = '250px'

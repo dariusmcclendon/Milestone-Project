@@ -1,8 +1,12 @@
 *{
+    /* border : 1px solid black; */
+}
+header {
     border : 1px solid black;
 }
-
 body {
     text-align : center;
-    margin : 1em 4em 1em 4em;
+    margin : 1em 25em 1em 25em;
+    
 }
+
